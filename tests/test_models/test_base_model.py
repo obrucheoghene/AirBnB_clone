@@ -53,9 +53,12 @@ class TestBaseModel_save(unittest.TestCase):
 class TestBaseModel_to_dict(unittest.TestCase):
     """Unit tests for BaseModel to dict"""
     
-    def test_model_to_dict_has__class__key(self):
+    def test_model_to_dict_has_all_key(self):
         bm_dict = BaseModel().to_dict()
         self.assertIn("__class__", bm_dict)
+        self.assertIn("created_at", bm_dict) 
+        self.assertIn("updated_at", bm_dict)
+        self.assertIn("id", bm_dict)
     
     def test_model_to_dict__class__equal_class_name(self):
         bm_dict = BaseModel().to_dict()
