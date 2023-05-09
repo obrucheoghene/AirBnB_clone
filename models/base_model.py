@@ -24,13 +24,16 @@ class BaseModel:
             A new instance of BaseModel
         """
         if kwargs:
-            date_format = "%Y-%m-%d %H:%M:%S"
-            self.id = kwargs["id"]
-            self.created_at = datetime.strptime(kwargs["created_at"],
-                                                date_format)
-            
-            self.updated_at = datetime.strptime(kwargs["updated_at"],
-                                                date_format)
+            date_format = "%Y-%m-%dT%H:%M:%S.%f"
+            for key, value in kwargs.items():
+                if key == "created_at":
+                    self.created_at = datetime.strptime(value, date_format)
+                elif key == "updated_at":
+                    self.updated_at = datetime.strptime(value, date_format)
+                elif key == "__class__":
+                    pass
+                else:
+                    setattr(self, key, value)
         else:
             self.id = str(uuid4())
             self.created_at = datetime.now()
