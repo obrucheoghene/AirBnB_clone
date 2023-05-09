@@ -12,16 +12,29 @@ class BaseModel:
     of other classes
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Initialize a new instance of BaseModel.
+
+        Args:
+            args(tuple): Variable arguments
+            kwargs(dict): Variable keyword arguments
 
         Returns:
             A new instance of BaseModel
         """
-        self.id = str(uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if kwargs:
+            date_format = "%Y-%m-%d %H:%M:%S"
+            self.id = kwargs["id"]
+            self.created_at = datetime.strptime(kwargs["created_at"],
+                                                date_format)
+            
+            self.updated_at = datetime.strptime(kwargs["updated_at"],
+                                                date_format)
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         """
