@@ -12,7 +12,7 @@ class BaseModel:
     of other classes
     """
 
-    def __int__(self):
+    def __init__(self):
         """
         Initialize a new instance of BaseModel.
 
@@ -30,8 +30,8 @@ class BaseModel:
         Returns:
             A string representation of the BaseModel instance.
         """
-        return "[{}] ({}) {}".format(self.__class.__name__,
-                                     self.id, self.__dict__)
+        return ("[{}] ({}) {}".
+                format(self.__class__.__name__, self.id, self.__dict__))
 
     def save(self):
         """
@@ -48,9 +48,9 @@ class BaseModel:
         Returns:
             Returns __dict__ keys/values of the instance
         """
-        dic = self.__dic__.copy()
-        dic["created_at"] = self.created_at.isoformat()
-        dic["updated_at"] = self.updated_at.isoformat()
-        dic["__class__"] = self.__class__.__name__
+        c_dict = self.__dict__.copy()
+        c_dict["created_at"] = self.created_at.isoformat()
+        c_dict["updated_at"] = self.updated_at.isoformat()
+        c_dict["__class__"] = self.__class__.__name__
 
-        return dic
+        return c_dict
