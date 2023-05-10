@@ -23,14 +23,16 @@ class BaseModel:
         Returns:
             A new instance of BaseModel
         """
+        date_format = '%Y-%m-%dT%H:%M:%S.%f'
         if kwargs:
-            date_format = "%Y-%m-%dT%H:%M:%S.%f"
             for key, value in kwargs.items():
-                if key == "created_at":
-                    self.created_at = datetime.strptime(value, date_format)
-                elif key == "updated_at":
-                    self.updated_at = datetime.strptime(value, date_format)
-                elif key == "__class__":
+                if "created_at" == key:
+                    self.created_at = datetime.strptime(kwargs["created_at"],
+                                                        date_format)
+                elif "updated_at" == key:
+                    self.updated_at = datetime.strptime(kwargs["updated_at"],
+                                                        date_format)
+                elif "__class__" == key:
                     pass
                 else:
                     setattr(self, key, value)
