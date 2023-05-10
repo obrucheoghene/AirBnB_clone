@@ -39,6 +39,14 @@ class TestBaseModel_initialization(unittest.TestCase):
         bm2 = BaseModel()
         self.assertLess(bm1.created_at, bm2.created_at)
 
+    def test_create_model_from_dictionary(self):
+        bm = BaseModel()
+        bm_dict = bm.to_dict()
+        new_bm = BaseModel(bm_dict)
+        self.assertEqual(BaseModel, type(new_bm))
+        self.assertEqual(bm, new_bm)
+        self.assertEqual(bm.id, new_bm.id)
+
 
 class TestBaseModel_save(unittest.TestCase):
     """Unit tests for BaseModel save"""
