@@ -4,6 +4,7 @@ This module defines all common attributes/methods for other classes
 """
 from uuid import uuid4
 from datetime import datetime
+from models 
 
 
 class BaseModel:
@@ -24,7 +25,7 @@ class BaseModel:
             A new instance of BaseModel
         """
         date_format = '%Y-%m-%dT%H:%M:%S.%f'
-        if kwargs:
+        if len(kwargs) != 0:
             for key, value in kwargs.items():
                 if "created_at" == key:
                     self.created_at = datetime.strptime(kwargs["created_at"],
@@ -40,6 +41,7 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            models.storage.new(self)
 
     def __str__(self):
         """
@@ -57,6 +59,7 @@ class BaseModel:
         with the current datetime
         """
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """
