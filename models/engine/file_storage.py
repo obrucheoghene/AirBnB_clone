@@ -55,6 +55,5 @@ class FileStorage():
         if os.path.isfile(self.__file_path):
             with open(self.__file_path, "r", encoding="UTF-8") as file:
                 objects_dict = json.load(file)
-
                 for obj_dict in objects_dict.values():
                     self.new(eval(obj_dict["__class__"])(**obj_dict))

@@ -12,7 +12,7 @@ class HBNBCommand(cmd.Cmd):
     Represents the HBNB command interpreter for Airbnb
     """
     prompt = "(hbnb) "
-    __classes = ["BaseModel"]
+    __all_classes = ["BaseModel"]
 
     def do_quit(self, args):
         """Quit command to exit the program"""
@@ -36,7 +36,7 @@ class HBNBCommand(cmd.Cmd):
         if args == "":
             print("** class name missing **")
             return
-        elif args not in self.__classes:
+        elif args not in self.__all_classes:
             print("** class doesn't exist **")
             return
         obj = eval(args)()
@@ -53,7 +53,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         params = args.split()
-        if params[0] not in self.__classes:
+        if params[0] not in self.__all_classes:
             print("** class doesn't exist **")
             return
         elif len(params) == 1:
@@ -62,7 +62,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             saved_models = storage.all()
             for obj in saved_models.values():
-                if obj.id == id:
+                if obj.id == params[1]:
                     print(obj)
                     return
             print("* no instance found **")
@@ -77,9 +77,9 @@ class HBNBCommand(cmd.Cmd):
         if args == "":
             print([str(obj) for obj in all_instances])
             return
-        input = args.split()
-        class_name = input[0]
-        if class_name not in self.avaliable_class:
+        params = args.split()
+        class_name = params[0]
+        if class_name not in self.__all_classes:
             print("** class doesn't exist **")
         else:
             print([str(obj) for obj in all_instances
