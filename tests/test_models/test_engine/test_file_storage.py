@@ -15,23 +15,34 @@ from models.engine.file_storage import FileStorage
 
 
 class TestFileStorage_instantiation(unittest.TestCase):
-    """Unittests for instantiation of the FileStorage"""
+    """
+    Unittests for instantiation of the FileStorage
+    """
 
-    def test_FileStorage_instantiation_no_args(self):
+    def test_FileStorage_init_no_arg(self):
         self.assertEqual(type(FileStorage()), FileStorage)
 
-    def test_FileStorage_instantiation_with_arg(self):
+    def test_FileStorage_init_with_arg(self):
         with self.assertRaises(TypeError):
             FileStorage(None)
 
-    def test_FileStorage_file_path_is_private_str(self):
+    def test_FileStorage_file_path_is_private(self):
         self.assertEqual(str, type(FileStorage._FileStorage__file_path))
 
-    def testFileStorage_objects_is_private_dict(self):
+    def testFileStorage_objects_is_private(self):
         self.assertEqual(dict, type(FileStorage._FileStorage__objects))
 
     def test_storage_initializes(self):
         self.assertEqual(type(models.storage), FileStorage)
+
+
+class TestFileStorage_methods(unittest.TestCase):
+    """
+    Unittests for FileStorage methods
+    """
+
+    def test_all(self):
+        self.assertEqual(dict, type(models.storage.all()))
 
 
 if __name__ == "__main__":
