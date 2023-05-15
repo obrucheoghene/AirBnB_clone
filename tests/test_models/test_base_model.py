@@ -8,11 +8,10 @@ Unitest classes:
     TestBaseModel_to_dict
     TestBaseModel_str_representation
 """
-import models_path
 from models.base_model import BaseModel
-import unittest
-from datetime import datetime
 from time import sleep
+from datetime import datetime
+import unittest
 
 
 class TestBaseModel_initialization(unittest.TestCase):
@@ -25,7 +24,7 @@ class TestBaseModel_initialization(unittest.TestCase):
         bm1 = BaseModel()
         bm2 = BaseModel()
         self.assertNotEqual(bm1.id, bm2.id)
-    
+
     def test_id_is_str(self):
         self.assertEqual(str, type(BaseModel().id))
 
@@ -39,7 +38,7 @@ class TestBaseModel_initialization(unittest.TestCase):
         bm2 = BaseModel()
         self.assertLess(bm1.created_at, bm2.created_at)
 
-    #def test_init_model_from_kwargs(self):
+    # def test_init_model_from_kwargs(self):
     #    bm = BaseModel()
     #    bm_dict = bm.to_dict()
     #    new_bm = BaseModel(bm_dict)
@@ -55,12 +54,12 @@ class TestBaseModel_initialization(unittest.TestCase):
     #    self.assertEqual(bm.created_at, dt_iso)
     #    self.assertEqual(bm.updated_at, dt_iso)
 
-        
+
 class TestBaseModel_save(unittest.TestCase):
     """Unit tests for BaseModel save"""
 
     def test_model_upated_at_changed(self):
-        base_model = BaseModel();
+        base_model = BaseModel()
         init_updated_at = base_model.updated_at
         base_model.save()
         self.assertNotEqual(init_updated_at, base_model.updated_at)
@@ -68,14 +67,14 @@ class TestBaseModel_save(unittest.TestCase):
 
 class TestBaseModel_to_dict(unittest.TestCase):
     """Unit tests for BaseModel to dict"""
-    
+
     def test_model_to_dict_has_all_key(self):
         bm_dict = BaseModel().to_dict()
         self.assertIn("__class__", bm_dict)
-        self.assertIn("created_at", bm_dict) 
+        self.assertIn("created_at", bm_dict)
         self.assertIn("updated_at", bm_dict)
         self.assertIn("id", bm_dict)
-    
+
     def test_model_to_dict__class__equal_class_name(self):
         bm_dict = BaseModel().to_dict()
         self.assertEqual(bm_dict["__class__"], "BaseModel")
@@ -86,6 +85,7 @@ class TestBaseModel_str_representation(unittest.TestCase):
 
     def test_class_name_str_representation(self):
         self.assertIn("[BaseModel]", BaseModel().__str__())
+
 
 if __name__ == "__main__":
     unittest.main()
