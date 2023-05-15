@@ -4,7 +4,7 @@ This module defines all common attributes/methods for other classes
 """
 from uuid import uuid4
 from datetime import datetime
-from models 
+import models
 
 
 class BaseModel:
@@ -25,7 +25,7 @@ class BaseModel:
             A new instance of BaseModel
         """
         date_format = '%Y-%m-%dT%H:%M:%S.%f'
-        if len(kwargs) != 0:
+        if len(kwargs) > 0:
             for key, value in kwargs.items():
                 if "created_at" == key:
                     self.created_at = datetime.strptime(kwargs["created_at"],

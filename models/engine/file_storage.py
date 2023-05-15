@@ -4,6 +4,7 @@ Defines the FileStorage to save instances to file
 """
 import json
 import os
+from models.base_model import BaseModel
 
 
 class FileStorage():
@@ -21,7 +22,7 @@ class FileStorage():
         reload: deserializes the JSON file to __objects
     """
 
-    __file_path = "file.json"
+    __file_path = "airbnb_db.json"
     __objects = {}
 
     def all(self):
@@ -34,14 +35,15 @@ class FileStorage():
         """
         sets in __objects the obj with key <obj class name>.id
         """
-        setattr(self.__objects, obj.__class__.__name__ + obj.id, obj)
+        key = '{}.{}'.format(obj.__class__.__name__, obj.id)
+        self.__objects[key] = obj
 
     def save(self):
         """
         serializes __objects to the JSON file (path: __file_path)
         """
         objects_dict = {}
-        for key, obj in __objects.items():
+        for key, obj in self.__objects.items():
             objects_dict[key] = obj.to_dict()
         with open(self.__file_path, "w", encoding="UTF-8") as file:
             json.dump(objects_dict, file)
@@ -52,9 +54,7 @@ class FileStorage():
         """
         if os.path.isfile(self.__file_path):
             with open(self.__file_path, "r", encoding="UTF-8") as file:
-                objects_dict = json.loads(file)
+                objects_dict = json.load(file)
 
-                for key, obj_dict in objects_dict.items():
-                    obj_str = "{}({})"
-                    .format(obj_dict["__class__"], **obj_dict)
-                    self.__objects[key] = eval(obj_str)
+                for obj_dict in objects_dict.values():
+                    self.new(eval(obj_dict["__clas__"])(**obj_dict))
