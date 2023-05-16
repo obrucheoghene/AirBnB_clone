@@ -105,6 +105,49 @@ class HBNBCommand(cmd.Cmd):
             del saved_model["{}.{}".format(params[0], params[1])]
             storage.save()
 
+    def do_update(self, args):
+        """
+        Updates an instance based on the class name and id
+        Usage: update <class name> <id> <attribute name> "<attribute value>"
+        """
+        saved_model = storage.all()
+        if args == "":
+            print("** class doesn't exist **")
+            return
+        params = args.split()
+        params_len = len(params)
+        if params[0] not in self.__all_classes:
+            print("** class doesn't exist **")
+            return
+        if params_len == 1:
+            print("** instance id missing **")
+            return
+        if "{}.{}".format(params[0], params[1]) not in saved_model.keys():
+            print("** no instance found **")
+        if params_len == 2:
+            print("** attribute name missing **")
+            return
+        if params_len == 3:
+            print("** value missing **")
+            return
+        if params_len == 4:
+            obj = saved_model["{}.{}".format(params[0], params[1])]
+            if params[2] in obj.__class__.__dict__.keys():
+                attr_type = type(obj.__class__.__dict__[params[2]])
+                obj.__dict__[params[2]] = attr_type(params[3])
+            else:
+                obj.__dict__[params[2]] = params[3]
+        elif type(eval(params[2])) == dict:
+            obj = saved_model["{}.{}".format(params[0], params[1])]
+            for k, v in eval(params[2]).items():
+                if (k in obj.__class__.__dict__.keys() and
+                        type(obj.__class__.__dict__[k]) in {str, int, float}):
+                    attr_type = type(obj.__class__.__dict__[k])
+                    obj.__dict__[k] = attr_type(v)
+                else:
+                    obj.__dict__[k] = v
+        storage.save()
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
