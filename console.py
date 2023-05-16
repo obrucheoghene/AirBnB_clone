@@ -49,6 +49,7 @@ class HBNBCommand(cmd.Cmd):
         of an instance
         Usage: show <class name> <id>
         """
+        saved_model = storage.all()
         if args == "":
             print("** class name missing **")
             return
@@ -59,13 +60,10 @@ class HBNBCommand(cmd.Cmd):
         elif len(params) == 1:
             print("** instance id missing **")
             return
+        elif "{}.{}".format(params[0], params[1]) not in saved_model.keys():
+            print("** no instance found **")
         else:
-            saved_models = storage.all()
-            for obj in saved_models.values():
-                if obj.id == params[1]:
-                    print(obj)
-                    return
-            print("* no instance found **")
+            print(saved_model["{}.{}".format(params[0], params[1])])
 
     def do_all(self, args):
         """
@@ -84,6 +82,28 @@ class HBNBCommand(cmd.Cmd):
         else:
             print([str(obj) for obj in all_instances
                    if class_name == obj.__class__.__name__])
+
+    def do_destroy(self, args):
+        """
+        Deletes an instance based on the class name and id
+        Usage: destroy BaseModel 1234-1234-1234
+        """
+        saved_model = storage.all()
+        if args == "":
+            print("** class name missing **")
+            return
+        params = args.split()
+        if params[0] not in self.__all_classes:
+            print("** class doesn't exist **")
+            return
+        elif len(params) == 1:
+            print("** instance id missing **")
+            return
+        elif "{}.{}".format(params[0], params[1]) not in saved_model.keys():
+            print("** no instance found **")
+        else:
+            del saved_model["{}.{}".format(params[0], params[1])]
+            storage.save()
 
 
 if __name__ == "__main__":
