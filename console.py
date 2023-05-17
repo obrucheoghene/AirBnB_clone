@@ -5,6 +5,11 @@ This module defines the console
 import cmd
 from models import storage
 from models.base_model import BaseModel
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
@@ -12,7 +17,13 @@ class HBNBCommand(cmd.Cmd):
     Represents the HBNB command interpreter for Airbnb
     """
     prompt = "(hbnb) "
-    __all_classes = ["BaseModel", "User"]
+    __all_classes = ["BaseModel",
+                     "User",
+                     "State",
+                     "City",
+                     "Place",
+                     "Amenity",
+                     "Review"]
 
     def do_quit(self, args):
         """Quit command to exit the program"""
