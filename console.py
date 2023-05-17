@@ -12,7 +12,7 @@ class HBNBCommand(cmd.Cmd):
     Represents the HBNB command interpreter for Airbnb
     """
     prompt = "(hbnb) "
-    __all_classes = ["BaseModel"]
+    __all_classes = ["BaseModel", "User"]
 
     def do_quit(self, args):
         """Quit command to exit the program"""
@@ -124,6 +124,7 @@ class HBNBCommand(cmd.Cmd):
             return
         if "{}.{}".format(params[0], params[1]) not in saved_model.keys():
             print("** no instance found **")
+            return
         if params_len == 2:
             print("** attribute name missing **")
             return
