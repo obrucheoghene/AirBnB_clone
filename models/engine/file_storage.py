@@ -5,6 +5,12 @@ Defines the FileStorage to save instances to file
 import json
 import os
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class FileStorage():
@@ -24,6 +30,8 @@ class FileStorage():
 
     __file_path = "airbnb_db.json"
     __objects = {}
+    __class_dict = {"BaseModel": BaseModel, "User": User, "Place": Place,
+                    "Amenity": Amenity, "City": City, "Review": Review, "State": State}
 
     def all(self):
         """
@@ -55,5 +63,6 @@ class FileStorage():
         if os.path.isfile(self.__file_path):
             with open(self.__file_path, "r", encoding="UTF-8") as file:
                 objects_dict = json.load(file)
-                for obj_dict in objects_dict.values():
-                    self.new(eval(obj_dict["__class__"])(**obj_dict))
+            for key, value in objects_dict.items():
+                obj = self.__class_dict[value['__class__']](**value)
+                self.__objects[key] = obj
